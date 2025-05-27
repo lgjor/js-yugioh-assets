@@ -12,5 +12,5 @@ conceitos abordados:
 
 # Bibliotecas
 
-- Utilização da biblioteca [RPGGUI](https://github.com/RonenNess/RPGUI).
+- Utilização da biblioteca [RPGGUI](https://github.com/RonenNess/RPGUI) para o design dos buttons, container e frame.
 
