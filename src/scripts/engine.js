@@ -18,6 +18,12 @@ const state = {
     },
 };
 
+const playersSides = {
+    player1: "player-field-card",
+    computer: "computer-field-card",
+}
+
+
 const pathImages = "src/assets/icons/"
 
 const cardData = [
@@ -47,11 +53,18 @@ const cardData = [
     },
 ];
 
-//const players = {
-//    player1: "player-cards"
-//}
+async function drawCards(cardNumbers, fieldSide) {
+    for (card of cardNumbers) {
+        const radomIdCard = await getRandomCardId();
+        const cardImage = await createCardImage(radomIdCard, fieldSide);
+
+        Document.getElementById(fieldSide).appendChild(cardImage);
+    }
+}
 
 function init(){
+    drawCards(5, playersSides.player1);
+    drawCards(5, playersSides.computer);
 
 }
 
