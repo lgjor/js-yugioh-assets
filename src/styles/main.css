@@ -90,8 +90,10 @@
 .card-versus__container{
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     padding-top: 0.1rem;
-    height: 100px;
+    min-height: 300px;
 }
 
 .versus-top,
