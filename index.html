@@ -7,9 +7,7 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- Estilos -->
-        <link rel="stylesheet" href="src/styles/reset.css">
-        <link rel="stylesheet" href="src/styles/containers_and_frames.css">
-        <link rel="stylesheet" href="src/styles/main.css">
+        <link rel="stylesheet" href="src/styles/index.css">
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,7 +36,27 @@
             </div>
             <div class="container__right">
                 <div class="card-box__container">
+                    <div class="card-box framed" id="computer-cards">
 
+                    </div>
+                    <div class="card-versus__container">
+                        <div class="versus-top">
+                            <div class="card-infield">
+                                <img id="player-field-card" height="180px" width="125px">
+                            </div>
+                            <img height="100px" src="src/assets/icons/millenium2.png">
+                            <div class="card-infield">
+                                <img id="computer-field-card" height="180px" width="125px">
+                            </div>
+                        </div>
+                        <div class="versus-bottom" onclick="resetDuel()">
+                            <button id="next-duel" class="rpgui-button" type="button">GANHOU</button>
+
+                        </div>
+                    </div>
+                    <div class="card-box framed" id="player-cards">
+
+                    </div>
                 </div>
             </div>
         </container>
