@@ -24,10 +24,8 @@ const state = {
     },
 };
 
-
-
-
 const pathImages = "src/assets/icons/"
+const pathAudio = "src/assets/audios/"
 
 const cardData = [
     {
@@ -99,17 +97,18 @@ async function setCardsField(cardId) {
 }
 
 async function checkDuelResults(playerCardId, computerCardId) {
-    let duelResults = "Empate";
+    let duelResults = "Draw";
     let playerCard = cardData[playerCardId];
 
     if (playerCard.WinOf.includes(computerCardId)) {
-        duelResults = "Vitoria";
+        duelResults = "Win";
         state.score.playerScore++;
     }
     if (playerCard.LoseOf.includes(computerCardId)) {
-        duelResults = "Derrota";
+        duelResults = "Lose";
         state.score.computerScore++;
     }
+    await playAudio(duelResults.toLowerCase());
     return duelResults;
 }
 
@@ -121,16 +120,7 @@ async function drawButton(duelResults) {
 async function updateScore(duelResults) {
     state.score.scoreBox.innerText = 
         `Win: ${state.score.playerScore} - Lose: ${state.score.computerScore}`;
-
-    if (state.score.playerScore >= 5) {
-        alert("Parabens, voce venceu!");
-        resetGame();
-    } else if (state.score.computerScore >= 5) {
-        alert("Que pena, voce perdeu!");
-        resetGame();
-    }
 }
-
 
 async function removeAllCardsImages(){
     // let cards = computerBOX; cards = player1BOX;
@@ -157,6 +147,24 @@ async function drawSelectedCard(IdCard) {
     state.cardSprites.avatar.setAttribute("src", cardData[IdCard].img);
     state.cardSprites.name.innerText = cardData[IdCard].name;
     state.cardSprites.type.innerText = "Atribute: "+cardData[IdCard].type;
+}
+
+async function resetDuel(){
+    state.cardSprites.avatar.src = "";
+    state.actions.button.style.display = "none";
+    state.fieldCards.player.style.display = "none";
+    state.fieldCards.computer.style.display = "none";
+
+    init();
+}
+
+async function playAudio(audioFile) {
+
+    const audio = new Audio(`${pathAudio}${audioFile}.wav`);
+    audio.volume = 0.3; // Set volume to 50%
+    audio.play().catch(error => {
+        console.error("Error playing audio:", error);
+    });
 }
 
 function init(){
