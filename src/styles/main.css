@@ -30,7 +30,7 @@
     );
 }
 
-container {
+.container {
     position: relative;
     z-index: 3;
     display: flex;
@@ -40,9 +40,10 @@ container {
 .container__left {
     width: 35%;
     min-width: 300px;
+    display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-around;  
 }
 
 .container__right {
@@ -120,4 +121,12 @@ container {
     height: 11.2rem;
     width: 8rem;
     border-radius: 8px;
+}
+
+.card {
+    transition: transform 0.2;
+}
+
+.card:hover {
+    transform: scale(1.2);
 }
