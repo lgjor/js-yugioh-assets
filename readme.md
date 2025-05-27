@@ -7,3 +7,8 @@ conceitos abordados:
 - Armazenamento e gerenciamento de estado manual
 - Funções limpas
 - Organização de código
+
+# Bibliotecas
+
+- Utilização da biblioteca [RPGGUI](https://github.com/RonenNess/RPGUI).
+
