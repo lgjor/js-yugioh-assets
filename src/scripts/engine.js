@@ -26,6 +26,48 @@ const state = {
 
 const pathImages = "src/assets/icons/"
 const pathAudio = "src/assets/audios/"
+const victoryPhrases = [    
+    "Essa foi fácil, né?",
+    "Droga, a sorte não estava do meu lado dessa vez.",
+    "Você ativou minha carta armadilha... o azar!",
+    "Eu subestimei o coração das cartas... do meu oponente.",
+    "O duelo foi seu, dessa vez.",
+    "Acho que preciso de um novo baralho... ou de mais prática no Jokenpô!",
+    "Game over... pra mim!",
+    "Prepare-se, a revanche virá!",
+    "Meu Kaiba interior não está feliz com isso.",
+    "A próxima é minha, pode apostar!",
+    "Bem jogado! Não pense que vai ser sempre assim."    
+]
+
+const losePhrases = [
+    "Meu destino foi selado!",
+    "O duelo é meu!",
+    "O coração das cartas estava comigo!",
+    "Eu invoco a vitória!",
+    "Você ativou minha carta armadilha... Eu Venci!",
+    "É hora do d-d-d-duelo... e da minha vitória!",
+    "Game over!",
+    "A supremacia é minha!",
+    "Não subestime um mestre do Jokenpô!"
+]
+
+const drawPhrases = [
+    "Empate! O duelo continua...",
+    "Nenhum vencedor, por enquanto.",
+    "O jogo está empatado, mas a batalha ainda não acabou.",
+    "Um empate digno de um duelo épico!",
+    "O destino decidiu que hoje não há vencedores.",
+    "Empate! Vamos para a próxima rodada.",
+    "O duelo termina em empate, mas a guerra continua.",
+    "Nenhum vencedor, mas muitos desafios pela frente."
+];
+
+const typeMap = {
+    "Paper": { WinOf: ["Rock"], LoseOf: ["Scissors"] },
+    "Rock": { WinOf: ["Scissors"], LoseOf: ["Paper"] },
+    "Scissors": { WinOf: ["Paper"], LoseOf: ["Rock"] },
+};
 
 const cardData = [
     {
@@ -41,21 +83,57 @@ const cardData = [
         name: "Dark Magician",
         type: "Rock",
         img: `${pathImages}magician.png`,
-        WinOf: [2],
-        LoseOf: [0],
     },
     {
         id: 2,
         name: "Exodia",
         type: "Scissors",
         img: `${pathImages}exodia.png`,
-        WinOf: [0],
-        LoseOf: [1],
     },
+    {
+        id: 3,
+        name: "Red-eyes B. Dragon",
+        type: "Scissors",
+        img: `${pathImages}reddragon.png`,
+    },
+    {
+        id: 4,
+        name: "Battle Steer",
+        type: "Rock",
+        img: `${pathImages}battlesteer.png`,
+    },
+    {
+        id: 5,
+        name: "Droll Bird",
+        type: "Paper",
+        img: `${pathImages}drollbird.png`,
+    },
+
 ];
 
+// Preenche WinOf e LoseOf com base no type
+cardData.forEach(card => {
+    card.WinOf = cardData
+        .filter(otherCard => typeMap[card.type]?.WinOf.includes(otherCard.type))
+        .map(otherCard => otherCard.id);
+    card.LoseOf = cardData
+        .filter(otherCard => typeMap[card.type]?.LoseOf.includes(otherCard.type))
+        .map(otherCard => otherCard.id);
+});
+
+let distributedCards = [];
+// Modificado para que as cartas não sejam repetidas
 async function getRandomCardId() {
-    const randomIndex = Math.floor(Math.random() * cardData.length);
+    if (distributedCards.length === cardData.length) {
+        distributedCards = []; // Reinicia a lista se todas as cartas foram usadas
+    }
+
+    let randomIndex = Math.floor(Math.random() * cardData.length);
+    while (distributedCards.includes(randomIndex)) {
+        randomIndex = Math.floor(Math.random() * cardData.length); // Sorteia novamente se a carta já foi distribuída
+    }
+
+    distributedCards.push(randomIndex);
     return cardData[randomIndex].id;
 }
 
@@ -113,10 +191,19 @@ async function hiddenCardDetails(){
     state.cardSprites.type.innerText = "";
 }
 
+async function printFinalPhrases(duelResults){
+    if (duelResults === "Win") {
+        state.cardSprites.type.innerText = victoryPhrases[Math.floor(Math.random() * victoryPhrases.length)];
+    } else if (duelResults === "Lose") {
+        state.cardSprites.type.innerText = losePhrases[Math.floor(Math.random() * losePhrases.length)];
+    } else {
+        state.cardSprites.type.innerText = "Empate!";
+    }
+}
+
 async function checkDuelResults(playerCardId, computerCardId) {
     let duelResults = "Draw";
     let playerCard = cardData[playerCardId];
-
     if (playerCard.WinOf.includes(computerCardId)) {
         duelResults = "Win";
         state.score.playerScore++;
@@ -126,7 +213,8 @@ async function checkDuelResults(playerCardId, computerCardId) {
         state.score.computerScore++;
     }
     await playAudio(duelResults.toLowerCase());
-    return duelResults;
+    await printFinalPhrases(duelResults);
+    return duelResults;    
 }
 
 async function drawButton(duelResults) {
@@ -171,6 +259,8 @@ async function resetDuel(){
     state.actions.button.style.display = "none";
     state.fieldCards.player.style.display = "none";
     state.fieldCards.computer.style.display = "none";
+    state.cardSprites.name.innerText = "Selecione";
+    state.cardSprites.type.innerText = "uma carta";
 
     init();
 }
@@ -187,6 +277,9 @@ async function playAudio(audioFile) {
 function init(){
     drawCards(5, state.playersSides.player1);
     drawCards(5, state.playersSides.computer);
+    const bgm = document.getElementById('bgm');
+    bgm.volume = 0.3; // Set volume to 30%
+    bgm.play();
 }
 
 init();
