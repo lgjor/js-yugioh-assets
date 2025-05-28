@@ -1,6 +1,8 @@
 # Yu-Gi-Oh | Jo-ken-po Edition
 
-Esse é um fork de um jogo de jokenpo criado para explicar conceitos de lógica de programação aplicados a jogos por Felipe Aguiar.
+Melhorias feitas a partir do fork de um repositório inicial de um conteúdo criado para explicar conceitos de lógica de programação aplicados a jogos por Felipe Aguiar.
+
+Jogue e teste a sorte de hoje: [https://lgjor.github.io/js-yugioh-assets/](https://lgjor.github.io/js-yugioh-assets/)
 
 Repositório original: [https://github.com/digitalinnovationone/js-yugioh-assets](https://github.com/digitalinnovationone/js-yugioh-assets)
 
